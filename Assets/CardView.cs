@@ -19,8 +19,8 @@ public class CardView : MonoBehaviour
     public void OnClick()
     {
           //Debug.Log("Card " + cardId + " clicked!");
-        var card = GameManager.Instance.GetCard(cardId);
-        Debug.Log("点击了："+card.ToString());
+        //var card = GameManager.Instance.GetCard(cardId);
+        //Debug.Log("点击了："+card.ToString());
         GetComponentInParent<CardSelection>().Selected = this;
     }
 }

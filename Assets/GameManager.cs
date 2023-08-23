@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
     public CardView cardPrefab;
     public Transform cardParent;
     public Transform cardStartPosT;
+    public TMPro.TextMeshProUGUI resultText;
     public int cardCount = 10;
     public float cardWidth = 1f;
 
@@ -110,6 +111,7 @@ public class GameManager : Singleton<GameManager>
             print("当前没有选择任何卡牌");
             return;
         }
-        print($"当前选择了{GetCard(CardSelection.Instance.Selected.cardId)}");
+        //print($"当前选择了{GetCard(CardSelection.Instance.Selected.cardId)}");
+        resultText.text = $"选用了:{GetCard(CardSelection.Instance.Selected.cardId)}";
     }
 }
