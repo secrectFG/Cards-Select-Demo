@@ -50,7 +50,7 @@ namespace Model
                     valueString = Value.ToString();
                     break;
             }
-            return $"{valueString} of {Suit.ToString()}";
+            return $"{Suit}{valueString}";
         }
 
         private int GetIndex()

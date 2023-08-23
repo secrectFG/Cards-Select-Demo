@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public Sprite[] cardSprites;
     public CardView cardPrefab;
     public Transform cardParent;
+    public Transform cardStartPosT;
     public int cardCount = 10;
     public float cardWidth = 1f;
 
@@ -55,7 +56,7 @@ public class GameManager : Singleton<GameManager>
 
             // Position the card
             float cardX = startingX + i * cardWidth;
-            card.transform.position = new Vector3(cardX, cardParent.position.y, cardParent.position.z);
+            card.transform.position = cardStartPosT.position;
 
             card.transform.SetParent(cardParent);
             card.transform.localScale = Vector3.one;
@@ -65,11 +66,11 @@ public class GameManager : Singleton<GameManager>
 
             
 
-            DealCard(card.gameObject, i * delayBetweenCards);
+            DealCard(card.gameObject, i * delayBetweenCards, new Vector3(cardX, cardParent.position.y, cardParent.position.z));
         }
     }
 
-    private void DealCard(GameObject card, float delay)
+    private void DealCard(GameObject card, float delay, Vector3 targetPos)
     {
         // Store the initial rotation
         Quaternion initialRotation = card.transform.rotation;
@@ -78,6 +79,9 @@ public class GameManager : Singleton<GameManager>
         var sequence = DOTween.Sequence();
 
         sequence.AppendInterval(delay);
+
+        // Move card to target position
+        sequence.Append(card.transform.DOMove(targetPos, 0.1f));
 
         // Rotate card to half way over dealDuration / 2
         sequence.Append(card.transform.DORotate(new Vector3(0, 90, 0), dealDuration / 2));
@@ -98,5 +102,14 @@ public class GameManager : Singleton<GameManager>
         var cardId = card.GetComponent<CardView>().cardId;
         //Debug.Log(card.name + " is half way there!" + cardId+" "+card+ " "+ cardSprites[cardId]);
         card.GetComponent<Image>().sprite = cardSprites[cardId];
+    }
+
+    public void DoSomeThingWithSelected()
+    {
+        if (CardSelection.Instance.Selected == null){
+            print("当前没有选择任何卡牌");
+            return;
+        }
+        print($"当前选择了{GetCard(CardSelection.Instance.Selected.cardId)}");
     }
 }
